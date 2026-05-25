@@ -2,8 +2,12 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>青商企服 - 企业健康诊断</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=yes">
+<meta name="description" content="潮州市青商投资服务有限公司，专注潮州中小企业融资、财税、法务综合服务。免费企业健康诊断，最快48小时放款。">
+<meta name="keywords" content="潮州企业融资,过桥垫资,财税合规,企业服务,贷款">
+<meta property="og:title" content="潮州青商企服 - 融资·财税·法务 企业综合服务">
+<meta property="og:description" content="免费企业健康诊断，财税合规+融资落地+法务风控，三位一体为企业保驾护航">
+<title>潮州青商企服 - 融资·财税·法务 企业综合服务</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,12 +15,30 @@
 <!-- HERO -->
 <section class="hero" id="hero">
   <div class="hero__inner">
-    <div class="hero__badge">潮州企业融资 · 合规 · 风控</div>
-    <h1 class="hero__title">年营收500万到1亿的企业<br><span class="gold">融资为什么总卡在最后一步？</span></h1>
-    <p class="hero__sub">青商企服，帮企业财税合规 + 融资落地<br>不是感觉，是数据说了算</p>
+    <div class="hero__badge">潮州市青商投资服务有限公司</div>
+    <h1 class="hero__title">融资 · 财税 · 法务<br><span class="gold">企业综合服务一步到位</span></h1>
+    <p class="hero__sub">专注服务潮州中小企业<br>财税合规 + 融资落地 + 法务风控，三位一体为企业保驾护航</p>
     <div class="hero__btns">
-      <button class="btn btn--gold" onclick="QS.quiz.start()">立即免费评估</button>
+      <button class="btn btn--gold" onclick="QS.quiz.start()">免费企业诊断</button>
       <a href="#services" class="btn btn--outline">了解服务</a>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK DIAGNOSTIC -->
+<section class="quick-section" id="quickSection" style="display:block">
+  <div class="container" style="text-align:center">
+    <div class="section-label">30 SECOND CHECK</div>
+    <h2 class="section-title reveal">快速<span class="gold">预判</span>企业融资风险</h2>
+    <p class="section-desc reveal" style="margin:0 auto 28px">只需回答3个关键问题，30秒初步了解企业融资健康度</p>
+    <div id="quickQuiz">
+      <div id="quickContainer" class="quick-container"></div>
+    </div>
+    <div id="quickResult" style="display:none">
+      <div class="quick-result__title" style="font-size:1.5em;font-weight:800;margin-bottom:10px"></div>
+      <div class="quick-result__desc" style="font-size:0.95em;color:var(--clr-text-muted);margin-bottom:24px;max-width:400px;margin-left:auto;margin-right:auto"></div>
+      <button class="btn btn--gold" id="quickCTA">开始25题深度评估</button>
+      <p style="font-size:0.75em;color:var(--clr-text-dim);margin-top:10px">完整评估覆盖融资/财税/法务三维度，更精准</p>
     </div>
   </div>
 </section>
@@ -25,10 +47,11 @@
 <section class="trust-bar" id="trust">
   <div class="container">
     <div class="trust-bar__scroll">
-      <div class="stat-card reveal"><div class="stat-card__num"><span data-target="127" data-suffix="+">0</span></div><div class="stat-card__label">服务企业数量</div><div class="stat-card__sub">持续服务中</div></div>
-      <div class="stat-card reveal reveal--d1"><div class="stat-card__num"><span data-target="2.3" data-suffix="亿" data-decimal="1">0</span></div><div class="stat-card__label">协助融资总额</div><div class="stat-card__sub">银行+过桥</div></div>
-      <div class="stat-card reveal reveal--d2"><div class="stat-card__num"><span data-target="94" data-suffix="%">0</span></div><div class="stat-card__label">客户续费比例</div><div class="stat-card__sub">口碑转介绍</div></div>
-      <div class="stat-card reveal reveal--d3"><div class="stat-card__num"><span data-target="3.5" data-suffix="天" data-decimal="1">0</span></div><div class="stat-card__label">平均放款周期</div><div class="stat-card__sub">最快48小时</div></div>
+      <div class="stat-card reveal"><div class="stat-card__num"><span data-target="127" data-suffix="+">0</span></div><div class="stat-card__label">累计服务企业</div><div class="stat-card__sub">截至2026年5月</div></div>
+      <div class="stat-card reveal reveal--d1"><div class="stat-card__num"><span data-target="2.3" data-suffix="亿" data-decimal="1">0</span></div><div class="stat-card__label">协助融资总额</div><div class="stat-card__sub">银行+过桥累计</div></div>
+      <div class="stat-card reveal reveal--d2"><div class="stat-card__num"><span data-target="94" data-suffix="%">0</span></div><div class="stat-card__label">客户续费率</div><div class="stat-card__sub">年度统计数据</div></div>
+      <div class="stat-card reveal reveal--d3"><div class="stat-card__num"><span data-target="3.5" data-suffix="天" data-decimal="1">0</span></div><div class="stat-card__label">平均放款周期</div><div class="stat-card__sub">从提交到到账</div></div>
+      <div class="stat-card reveal reveal--d4"><div class="stat-card__num"><span data-target="56" data-suffix="">0</span></div><div class="stat-card__label">本月完成评估</div><div class="stat-card__sub">数据实时更新</div></div>
     </div>
   </div>
 </section>
@@ -50,14 +73,20 @@
 <!-- SOLUTION FLOW -->
 <section id="solution">
   <div class="container">
-    <div class="section-label">SOLUTION</div>
-    <h2 class="section-title reveal">青商<span class="gold">三步走</span>，从问题到解决</h2>
+    <div class="section-label">HOW IT WORKS</div>
+    <h2 class="section-title reveal">从评估到<span class="gold">资金到位</span>，只需6步</h2>
     <div class="flow">
-      <div class="flow-step reveal"><div class="flow-step__num">1</div><div class="flow-step__content"><h3>财税规范 → 信用修复</h3><p>梳理账目、补齐凭证、优化银行流水，让财务数据真正反映企业经营实力</p></div></div>
+      <div class="flow-step reveal"><div class="flow-step__num">1</div><div class="flow-step__content"><h3>提交需求</h3><p>填写评估表单，3分钟完成企业健康诊断</p></div></div>
       <div class="flow-arrow reveal">↓</div>
-      <div class="flow-step reveal reveal--d1"><div class="flow-step__num">2</div><div class="flow-step__content"><h3>融资落地 → 资金到位</h3><p>匹配最优融资方案，银行+过桥双通道，最快3.5天放款</p></div></div>
+      <div class="flow-step reveal reveal--d1"><div class="flow-step__num">2</div><div class="flow-step__content"><h3>1对1诊断</h3><p>专业顾问24小时内电话沟通，深入了解企业情况</p></div></div>
       <div class="flow-arrow reveal reveal--d1">↓</div>
-      <div class="flow-step reveal reveal--d2"><div class="flow-step__num">3</div><div class="flow-step__content"><h3>法务兜底 → 稳健经营</h3><p>合同审核把关、劳动纠纷预防、经营风险实时预警</p></div></div>
+      <div class="flow-step reveal reveal--d2"><div class="flow-step__num">3</div><div class="flow-step__content"><h3>定制方案</h3><p>根据评估结果，匹配最优融资+财税+法务方案</p></div></div>
+      <div class="flow-arrow reveal reveal--d2">↓</div>
+      <div class="flow-step reveal reveal--d3"><div class="flow-step__num">4</div><div class="flow-step__content"><h3>签约服务</h3><p>确认方案与费用，签订服务协议，正式启动</p></div></div>
+      <div class="flow-arrow reveal reveal--d3">↓</div>
+      <div class="flow-step reveal"><div class="flow-step__num">5</div><div class="flow-step__content"><h3>资金到位</h3><p>银行直达到账，最快48小时，过桥资金当日可用</p></div></div>
+      <div class="flow-arrow reveal">↓</div>
+      <div class="flow-step reveal"><div class="flow-step__num">6</div><div class="flow-step__content"><h3>持续跟进</h3><p>财税合规维护、续贷提醒、风险预警，长期服务不断档</p></div></div>
     </div>
   </div>
 </section>
@@ -68,9 +97,9 @@
     <div class="section-label">SERVICES</div>
     <h2 class="section-title reveal">三大业务板块<span class="gold">全覆盖</span></h2>
     <div class="services-grid">
-      <div class="service-card reveal"><span class="service-card__icon">💰</span><div class="service-card__title">金融服务</div><div class="service-card__desc">银行融资 · 过桥垫资 · 推荐函担保 · 供应链金融</div><div class="service-card__tags"><span class="tag">银行渠道</span><span class="tag">过桥垫资</span><span class="tag">推荐函</span></div></div>
-      <div class="service-card reveal reveal--d1"><span class="service-card__icon">📋</span><div class="service-card__title">财税服务</div><div class="service-card__desc">税务规划 · 流水优化 · 报表规范 · 财务结构调整</div><div class="service-card__tags"><span class="tag">税务规划</span><span class="tag">报表合规</span><span class="tag">成本优化</span></div></div>
-      <div class="service-card reveal reveal--d2"><span class="service-card__icon">⚖️</span><div class="service-card__title">法务服务</div><div class="service-card__desc">合同审核 · 劳动纠纷 · 合规体系 · 法律顾问</div><div class="service-card__tags"><span class="tag">合同审核</span><span class="tag">劳动合规</span><span class="tag">常年顾问</span></div></div>
+      <div class="service-card reveal"><span class="service-card__icon">💰</span><div class="service-card__title">金融服务</div><div class="service-card__desc">银行融资 · 过桥垫资 · 推荐函担保 · 供应链金融</div><div class="service-card__detail">最快48小时放款，与多家银行长期合作，帮您匹配最优融资方案</div><div class="service-card__tags"><span class="tag">银行渠道</span><span class="tag">过桥垫资</span><span class="tag">推荐函</span></div></div>
+      <div class="service-card reveal reveal--d1"><span class="service-card__icon">📋</span><div class="service-card__title">财税服务</div><div class="service-card__desc">税务规划 · 流水优化 · 报表规范 · 财务结构调整</div><div class="service-card__detail">专业团队梳理账目，让财务数据真正反映企业实力，提升贷款通过率</div><div class="service-card__tags"><span class="tag">税务规划</span><span class="tag">报表合规</span><span class="tag">成本优化</span></div></div>
+      <div class="service-card reveal reveal--d2"><span class="service-card__icon">⚖️</span><div class="service-card__title">法务服务</div><div class="service-card__desc">合同审核 · 劳动纠纷 · 合规体系 · 法律顾问</div><div class="service-card__detail">合同把关、纠纷预防、经营风险预警，防患于未然</div><div class="service-card__tags"><span class="tag">合同审核</span><span class="tag">劳动合规</span><span class="tag">常年顾问</span></div></div>
     </div>
   </div>
 </section>
@@ -80,11 +109,87 @@
   <div class="container">
     <div class="section-label">CASES</div>
     <h2 class="section-title reveal">真实案例，<span class="gold">前后对比</span></h2>
-    <div class="cases-scroll">
+    <div class="cases-scroll" id="casesScroll">
       <div class="case-card"><div class="case-card__tag">陶瓷企业 · 枫溪区</div><div class="case-card__title">陈总 · 年营收5000万</div><div class="case-card__ba"><div class="case-card__before"><span>整改前</span>过桥贷款依赖，月均利息支出超8万</div><div class="case-card__after"><span>整改后</span>银行直接授信800万，节省过桥费用62%</div></div><div class="case-card__note">关键动作：信用修复 + 担保推荐函 + 银行关系维护</div></div>
       <div class="case-card"><div class="case-card__tag">餐饮企业 · 潮安区</div><div class="case-card__title">林老板 · 年营收3000万</div><div class="case-card__ba"><div class="case-card__before"><span>整改前</span>账目混乱，银行流水不达标，贷款被拒</div><div class="case-card__after"><span>整改后</span>3个月后获贷300万，利率下浮15%</div></div><div class="case-card__note">关键动作：补齐3年发票流水 + 重新梳理财务报表结构</div></div>
       <div class="case-card"><div class="case-card__tag">不锈钢企业 · 彩塘镇</div><div class="case-card__title">张厂长 · 年营收8000万</div><div class="case-card__ba"><div class="case-card__before"><span>整改前</span>合同漏洞，1笔坏账拖垮2个月现金流</div><div class="case-card__after"><span>整改后</span>合同审核标准化，坏账率下降89%</div></div><div class="case-card__note">关键动作：合同模板重建 + 付款节点风控设计</div></div>
     </div>
+    <div class="cases-dots" id="casesDots"><span class="cases-dot active"></span><span class="cases-dot"></span><span class="cases-dot"></span></div>
+  </div>
+</section>
+
+<!-- ABOUT US -->
+<section id="about">
+  <div class="container">
+    <div class="section-label">ABOUT US</div>
+    <h2 class="section-title reveal">关于<span class="gold">青商企服</span></h2>
+    <p class="section-desc reveal" style="margin-bottom:32px">潮州市青商投资服务有限公司，专注服务潮州本地中小企业，以融资服务为核心，联动财税、法务，提供一站式企业综合服务。</p>
+    <div class="about-grid">
+      <div class="about-card reveal">
+        <div class="about-card__icon"> ️</div>
+        <div class="about-card__title">持牌合规</div>
+        <div class="about-card__desc">按照规范经营，与多家银行建立长期合作关系，所有业务流程合规透明</div>
+      </div>
+      <div class="about-card reveal reveal--d1">
+        <div class="about-card__icon"> </div>
+        <div class="about-card__title">本地深耕</div>
+        <div class="about-card__desc">深度了解潮州产业特点，服务覆盖陶瓷、不锈钢、食品、零售等核心行业</div>
+      </div>
+      <div class="about-card reveal reveal--d2">
+        <div class="about-card__icon"> </div>
+        <div class="about-card__title">三位一体</div>
+        <div class="about-card__desc">融资+财税+法务协同，不是一次性中介，而是企业的长期经营伙伴</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-label">FAQ</div>
+    <h2 class="section-title reveal">常见<span class="gold">问题</span></h2>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <div class="faq-q"><span>你们和银行贷款中介有什么区别？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">我们不是一次性中介。青商提供融资+财税+法务三位一体服务，不仅帮您拿到贷款，还帮您规范财税、防控法务风险，是企业的长期经营伙伴。贷款中介只管对接银行，我们管的是整个企业经营的合规健康。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>服务费怎么收？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">企业诊断评估完全免费。确认服务方案后，根据具体服务内容收取费用，顾问会在方案确认时详细说明收费标准，不存在隐形费用。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>评估结果会被别人看到吗？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">您的评估数据严格保密，仅用于为您提供诊断报告和服务匹配，不会与任何第三方共享。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>多久能拿到贷款？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">视具体情况而定。信用良好、材料齐全的客户最快48小时可放款（过桥垫资）。一般银行贷款流程需要2-4周。财税整改类服务可能需要1-3个月的前置准备。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>我已经有贷款了，还能再贷吗？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">需要根据您现有的负债情况、征信状况和经营流水综合评估。很多企业主以为贷不了，实际上是方案没找对。做完评估我们就能给您明确的答案。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>财税整改要多久？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">简单的账务梳理和流水优化，1-2个月可以见效。如果是两套账重建或纳税信用修复，通常需要3-6个月。我们会根据您的具体情况给出明确的时间表。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>我不确定需不需要你们的服务</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">免费评估没有任何风险，3分钟做完25道题，您就能看到自己企业的健康状况。即使暂时不需要服务，这份报告也能帮您了解企业的薄弱环节。</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>潮州以外的企业可以服务吗？</span><span class="faq-arrow">▾</span></div>
+        <div class="faq-a"><div class="faq-a__inner">目前我们主要服务潮州本地及周边区域的企业，因为本地化的银行关系和服务网络是我们的核心优势。其他区域可先做评估，顾问会根据您的位置给出建议。</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KNOWLEDGE CENTER -->
+<section class="knowledge-bar">
+  <div class="container" style="text-align:center">
+    <p style="color:var(--clr-text-muted);font-size:0.9em">更多融资知识与政策解读 → 关注公众号「<span style="color:var(--clr-gold)">青商企服</span>」</p>
   </div>
 </section>
 
@@ -123,22 +228,40 @@
         <div class="f-group"><label>感兴趣的服务</label><select name="interest"><option value="">请选择</option><option>融资服务</option><option>财税服务</option><option>法务服务</option><option>综合咨询</option></select></div>
         <button type="submit" class="f-submit" id="formSubmit">提交并获取报告</button>
       </form>
-      <div class="form-success" id="formSuccess" style="display:none"><div class="form-success__icon">✓</div><div class="form-success__title">提交成功</div><div class="form-success__desc">我们的专业顾问将在24小时内联系您<br>为您发送完整企业健康评估报告</div></div>
+      <div class="form-success" id="formSuccess" style="display:none"><div class="form-success__icon">✓</div><div class="form-success__title">提交成功</div><div class="form-success__desc">我们的专业顾问将在24小时内联系您<br>为您发送完整企业健康评估报告</div><div style="margin-top:16px;padding-top:16px;border-top:1px solid rgba(212,175,55,0.1)"><p style="font-size:0.85em;color:var(--clr-text-muted)">添加顾问微信，获取即时服务</p><div style="width:120px;height:120px;margin:12px auto;background:var(--clr-surface);border:1px solid var(--clr-gold-border);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--clr-text-dim);font-size:0.75em">微信二维码</div></div></div>
     </div>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <p>潮州市青商投资服务有限公司</p>
+  <p><strong>潮州市青商投资服务有限公司</strong></p>
+  <p>客服热线：<a href="tel:13828396767" style="color:var(--clr-gold)">13828396767</a> &nbsp; 微信：<span style="color:var(--clr-gold)">Tony_yaoshaodong</span></p>
   <p>chaozhouqt.com</p>
+  <p style="margin-top:10px"><a href="javascript:void(0)" onclick="document.getElementById('privacyModal').style.display='flex'" style="color:var(--clr-gold)">隐私政策</a></p>
   <div class="footer__disclaimer">本页面内容仅供信息参考，不构成经营许可范围内的专业服务。具体业务由持牌机构提供。</div>
 </footer>
 
+<!-- 隐私政策弹窗 -->
+<div class="modal" id="privacyModal" style="display:none">
+  <div class="modal__box">
+    <div class="modal__close" onclick="document.getElementById('privacyModal').style.display='none'">&times;</div>
+    <h3 style="color:var(--clr-gold);margin-bottom:16px">隐私政策</h3>
+    <div style="font-size:0.85em;color:var(--clr-text-muted);line-height:1.8;text-align:left">
+      <p><strong>信息收集</strong>：本页面收集您的姓名、手机号、企业名称及评估问卷回答，仅用于企业健康诊断服务。</p>
+      <p style="margin-top:8px"><strong>信息使用</strong>：收集的信息仅用于向您提供诊断报告和相关咨询服务，不会用于其他商业用途。</p>
+      <p style="margin-top:8px"><strong>信息保护</strong>：我们采取合理的技术和管理措施保护您的个人信息安全，未经授权不会向第三方披露。</p>
+      <p style="margin-top:8px"><strong>信息删除</strong>：如需删除您的信息，请联系我们客服。</p>
+      <p style="margin-top:8px"><strong>联系我们</strong>：如对隐私政策有任何疑问，请拨打客服热线 XXX-XXXX-XXXX。</p>
+    </div>
+  </div>
+</div>
+
 <!-- FIXED CTA -->
-<button class="btn btn--gold btn--sm fixed-cta" onclick="QS.quiz.start()">免费评估</button>
+<button class="btn btn--gold btn--sm fixed-cta" onclick="QS.quiz.start()">免费诊断</button>
 
 <script src="js/animations.js"></script>
+<script src="js/quick.js"></script>
 <script src="js/quiz.js"></script>
 <script src="js/radar.js"></script>
 <script src="js/report.js"></script>

@@ -47,15 +47,15 @@ window.QS = window.QS || {};
       issues.forEach(function(issue) {
         var icon = issue.type === 'warn' ? '⚠️' : '✅';
         var cls = issue.type === 'warn' ? 'warn' : 'ok';
-        html += '<div class="report__issue"><span class="report__issue-icon ' + cls + '">' + icon + '</span><span>' + issue.text + '</span></div>';
+        html += '<div class="report__issue"><span class="report__issue-icon ' + cls + '">' + icon + '</span><span>' + QS.escapeHtml(issue.text) + '</span></div>';
       });
       html += '</div>';
     }
 
     // CTA
     html += '<div style="margin-top:24px">';
-    html += '<a href="#contact" class="btn btn--gold btn--full">获取完整专业报告</a>';
-    html += '<p style="font-size:0.75em;color:#5A6A7A;margin-top:10px">报告将由专业顾问在24小时内发送至您的联系方式</p>';
+    html += '<a href="#contact" class="btn btn--gold btn--full">获取专属融资方案</a>';
+    html += '<p style="font-size:0.75em;color:#5A6A7A;margin-top:10px">免费获取，24小时内专业顾问1对1解读</p>';
     html += '</div>';
 
     el.innerHTML = html;

@@ -106,7 +106,8 @@ section{padding:60px 0;position:relative}
 .service-card:hover{border-color:var(--clr-gold);box-shadow:0 0 30px rgba(212,175,55,0.12)}
 .service-card__icon{font-size:2em;margin-bottom:14px;display:block}
 .service-card__title{font-size:1.15em;font-weight:700;color:var(--clr-gold);margin-bottom:10px}
-.service-card__desc{font-size:0.85em;color:var(--clr-text-muted);line-height:1.7;margin-bottom:14px}
+.service-card__desc{font-size:0.85em;color:var(--clr-text-muted);line-height:1.7;margin-bottom:8px}
+.service-card__detail{font-size:0.8em;color:var(--clr-text-dim);line-height:1.6;margin-bottom:14px;padding:8px 12px;background:rgba(212,175,55,0.04);border-radius:6px;border-left:2px solid var(--clr-gold-border)}
 .service-card__tags{display:flex;gap:6px;flex-wrap:wrap}
 .tag{background:var(--clr-gold-dim);border:1px solid rgba(212,175,55,0.2);color:var(--clr-gold);padding:3px 10px;border-radius:20px;font-size:0.75em}
 
@@ -122,6 +123,21 @@ section{padding:60px 0;position:relative}
 .case-card__after{background:rgba(46,204,113,0.08);border:1px solid rgba(46,204,113,0.2);color:var(--clr-success)}
 .case-card__ba span{display:block;font-size:0.85em;opacity:0.7;margin-bottom:2px}
 .case-card__note{font-size:0.8em;color:var(--clr-text-dim);margin-top:10px}
+.cases-dots{display:flex;justify-content:center;gap:8px;padding:8px 0}
+.cases-dot{width:8px;height:8px;border-radius:50%;background:rgba(212,175,55,0.2);cursor:pointer;transition:all 0.3s}
+.cases-dot.active{background:var(--clr-gold);width:20px;border-radius:4px}
+
+/* ========== QUICK DIAGNOSTIC ========== */
+.quick-section{padding:40px 0 20px}
+.quick-container{max-width:400px;margin:0 auto}
+.quick-card{display:none;text-align:left}
+.quick-card.active{display:block}
+.quick-card__step{font-size:0.75em;color:var(--clr-gold);letter-spacing:2px;margin-bottom:10px;font-weight:600}
+.quick-card__q{font-size:1.05em;font-weight:700;margin-bottom:14px}
+.quick-opts{display:flex;flex-direction:column;gap:8px}
+.quick-opt{background:var(--clr-surface);border:1.5px solid rgba(212,175,55,0.1);border-radius:var(--radius-sm);padding:13px 16px;cursor:pointer;transition:all 0.15s;font-size:0.9em;color:var(--clr-text)}
+.quick-opt:hover{border-color:var(--clr-gold);background:rgba(212,175,55,0.05)}
+.quick-opt.on{border-color:var(--clr-gold);background:rgba(212,175,55,0.1);color:var(--clr-gold);font-weight:600}
 
 /* ========== QUIZ ========== */
 .quiz-section{display:none;padding:0;min-height:100vh;background:var(--clr-bg);position:fixed;inset:0;z-index:999;overflow:hidden}
@@ -213,6 +229,29 @@ section{padding:60px 0;position:relative}
 .form-success__title{font-size:1.2em;font-weight:700;color:var(--clr-gold);margin-bottom:8px}
 .form-success__desc{font-size:0.9em;color:var(--clr-text-muted);line-height:1.6}
 
+/* ========== ABOUT US ========== */
+.about-grid{display:flex;flex-direction:column;gap:14px}
+@media(min-width:600px){.about-grid{flex-direction:row}}
+.about-card{flex:1;background:var(--clr-surface);border:1px solid rgba(212,175,55,0.1);border-radius:var(--radius);padding:24px 20px;text-align:center;transition:all var(--transition)}
+.about-card:hover{border-color:var(--clr-gold);box-shadow:0 0 24px rgba(212,175,55,0.1)}
+.about-card__icon{font-size:1.8em;margin-bottom:12px;display:block}
+.about-card__title{font-size:1.05em;font-weight:700;color:var(--clr-gold);margin-bottom:8px}
+.about-card__desc{font-size:0.85em;color:var(--clr-text-muted);line-height:1.6}
+
+/* ========== FAQ ========== */
+.faq-list{max-width:600px}
+.faq-item{border-bottom:1px solid rgba(212,175,55,0.08)}
+.faq-q{display:flex;justify-content:space-between;align-items:center;padding:16px 0;cursor:pointer;font-size:0.95em;font-weight:600;color:var(--clr-text);transition:color 0.2s}
+.faq-q:hover{color:var(--clr-gold)}
+.faq-arrow{font-size:1.2em;color:var(--clr-text-dim);transition:transform 0.3s}
+.faq-item.open .faq-arrow{transform:rotate(180deg);color:var(--clr-gold)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height 0.4s ease}
+.faq-item.open .faq-a{max-height:300px}
+.faq-a__inner{padding:0 0 16px;font-size:0.85em;color:var(--clr-text-muted);line-height:1.7}
+
+/* ========== KNOWLEDGE BAR ========== */
+.knowledge-bar{padding:24px 0;border-top:1px solid rgba(212,175,55,0.06)}
+
 /* ========== FOOTER ========== */
 .footer{text-align:center;padding:40px 20px;border-top:1px solid rgba(212,175,55,0.08);color:var(--clr-text-dim);font-size:0.8em}
 .footer p{margin:4px 0}
@@ -220,6 +259,11 @@ section{padding:60px 0;position:relative}
 
 /* ========== FIXED CTA ========== */
 .fixed-cta{position:fixed;bottom:20px;right:20px;z-index:900;animation:pulse-gold 2.5s infinite}
+
+/* ========== MODAL ========== */
+.modal{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;padding:20px}
+.modal__box{background:var(--clr-surface);border:1px solid var(--clr-gold-border);border-radius:var(--radius-lg);padding:28px 24px;max-width:480px;width:100%;max-height:80vh;overflow-y:auto;position:relative}
+.modal__close{position:absolute;top:12px;right:16px;font-size:1.5em;color:var(--clr-text-muted);cursor:pointer;line-height:1}
 
 /* ========== REVEAL ANIMATION ========== */
 .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease,transform 0.6s ease}

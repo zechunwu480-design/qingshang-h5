@@ -160,7 +160,7 @@ window.QS = window.QS || {};
       var html = '<div class="quiz-card__stage">' + STAGE_NAMES[q.s] + '</div>';
       html += '<div class="quiz-card__q">' + q.t + (q.req ? ' <span class="quiz-card__req">*</span>' : '') + '</div>';
       if (q.ty === 'text') {
-        html += '<div style="margin-top:20px"><input class="quiz-input" id="qi-' + i + '" placeholder="请输入" value="' + (state.answers[q.k]||'') + '"></div>';
+        html += '<div style="margin-top:20px"><input class="quiz-input" id="qi-' + i + '" placeholder="请输入" value="' + QS.escapeHtml(state.answers[q.k]||'') + '"></div>';
       } else {
         html += '<div class="quiz-opts">';
         q.opts.forEach(function(opt) {
@@ -283,6 +283,14 @@ window.QS = window.QS || {};
     },
     getAnswers: function() { return state.answers; },
     calcScores: calcScores,
-    getBizSignals: getBizSignals
+    getBizSignals: getBizSignals,
+    mergeAnswers: function(extra) {
+      if (!extra) return;
+      for (var k in extra) {
+        if (extra.hasOwnProperty(k) && !state.answers[k]) {
+          state.answers[k] = extra[k];
+        }
+      }
+    }
   };
 })();
