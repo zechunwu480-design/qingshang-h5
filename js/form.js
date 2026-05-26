@@ -87,10 +87,13 @@ window.QS = window.QS || {};
       }
 
       if (answers && Object.keys(answers).length > 0) {
-        text += '\n—— 客户填写信息 ——\n';
-        var keys = ['establish', 'pub_flow', 'total_debt', 'loan_orgs',
-                    'overdue', 'expect_amt', 'tax_grade', 'contract_dispute', 'exec_record'];
-        keys.forEach(function(k) {
+        text += '\n—— 完整答题信息 ——\n';
+        var allKeys = ['company','industry','establish','pub_flow',
+            'total_debt','loan_orgs','overdue','debt_trend','rejections','online_loans',
+            'collateral','flow_ratio','loan_due','expect_amt',
+            'acc_level','acc_person','tax_grade','tax_owed','invoice','social',
+            'contract_dispute','labor_dispute','exec_record','labor_contract','license'];
+        allKeys.forEach(function(k) {
           var label = LABELS[k] || k;
           var val = answers[k] || '-';
           text += label + '：' + val + '\n';
