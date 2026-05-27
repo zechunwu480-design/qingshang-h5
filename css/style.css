@@ -57,7 +57,7 @@ section{padding:60px 0;position:relative}
 .btn:disabled{opacity:0.4;cursor:not-allowed;transform:none!important}
 
 /* ========== HERO ========== */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;background:linear-gradient(135deg,rgba(26,58,95,0.88) 0%,rgba(44,74,110,0.82) 100%),url('../assets/xingye_bank.jpg');background-size:cover;background-position:center}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;position:relative;background:linear-gradient(135deg,#1B3A5F 0%,#2C4A6E 50%,#1a3a5f 100%)}
 .hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
 .hero__badge{display:inline-block;border:1px solid var(--clr-gold);color:var(--clr-gold);padding:6px 20px;border-radius:30px;font-size:0.8em;margin-bottom:28px;letter-spacing:1px;background:rgba(212,175,55,0.12)}
 .hero__title{font-size:clamp(2em,7vw,2.8em);font-weight:900;line-height:1.2;margin-bottom:20px;max-width:640px;color:#FFFFFF;text-shadow:0 2px 8px rgba(0,0,0,0.3)}

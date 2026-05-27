@@ -52,7 +52,7 @@ window.QS = window.QS || {};
     'license': '行业许可证/资质',
   };
 
-  /* ── 构建飞书消息文本（与server.py逻辑一致）── */
+  /* ── 构建飞书消息文本（完整版）── */
   function buildFeishuText(formData, quizData) {
     var text = '【新客户企业评估】\n';
     text += '联系人：' + (formData.name || '-') + '\n';
@@ -71,9 +71,9 @@ window.QS = window.QS || {};
     if (scores && Object.keys(scores).length > 0) {
       text += '\n—— 评估结果 ——\n';
       text += '总分：' + (scores.total || 0) + '/1000（' + (level.label || '-') + '级）\n';
-      text += '融资：' + (scores.fin || 0) + '/450\n';
-      text += '财税：' + (scores.tax || 0) + '/320\n';
-      text += '法务：' + (scores.law || 0) + '/230\n';
+      text += '融资：' + (scores.fin || 0) + '/450（' + (scores.finPct || 0) + '%）\n';
+      text += '财税：' + (scores.tax || 0) + '/320（' + (scores.taxPct || 0) + '%）\n';
+      text += '法务：' + (scores.law || 0) + '/230（' + (scores.lawPct || 0) + '%）\n';
       text += '\n过桥需求：' + (signals.bridge || '低') + '\n';
       text += '融资紧迫度：' + (signals.urgency || '低') + '\n';
       text += '客户价值：' + (signals.value || 'C') + '级\n';
@@ -84,6 +84,32 @@ window.QS = window.QS || {};
         warns.forEach(function(issue) {
           text += '⚠️ ' + (issue.text || '') + '\n';
         });
+      }
+
+      /* 服务推荐 */
+      var recs = [];
+      if (answers.overdue && answers.overdue.indexOf('未还') > -1) recs.push('信用修复');
+      if (answers.loan_due && (answers.loan_due === '已到期需续贷' || answers.loan_due === '1个月内到期')) recs.push('过桥垫资');
+      if (answers.loan_orgs && (answers.loan_orgs === '4-5个' || answers.loan_orgs === '5个以上')) recs.push('债务整合');
+      if (answers.rejections && (answers.rejections === '2次' || answers.rejections === '3次以上')) recs.push('担保推荐函');
+      if (scores.fin < 300) recs.push('银行融资方案设计');
+      if (answers.acc_level && (answers.acc_level === '较混乱' || answers.acc_level === '两套账或无账')) recs.push('账务重建');
+      if (answers.flow_ratio && (answers.flow_ratio === '私户为主（2:8以下）' || answers.flow_ratio === '基本走私户')) recs.push('公户流水优化');
+      if (answers.tax_grade === 'C级或未知') recs.push('纳税信用修复');
+      if (answers.contract_dispute && answers.contract_dispute === '有（未结案）') recs.push('合同纠纷处理');
+      if (recs.length > 0) {
+        text += '\n—— 推荐服务 ——\n';
+        recs.forEach(function(r) { text += '• ' + r + '\n'; });
+      }
+
+      /* 行动建议 */
+      var shortActions = [];
+      if (answers.overdue && answers.overdue.indexOf('未还') > -1) shortActions.push('优先结清逾期欠款');
+      if (answers.loan_due && (answers.loan_due === '已到期需续贷' || answers.loan_due === '1个月内到期')) shortActions.push('启动过桥垫资方案');
+      if (answers.acc_level && (answers.acc_level === '较混乱' || answers.acc_level === '两套账或无账')) shortActions.push('账务梳理与重建');
+      if (shortActions.length > 0) {
+        text += '\n—— 短期行动（1-3个月）——\n';
+        shortActions.forEach(function(a) { text += '→ ' + a + '\n'; });
       }
 
       if (answers && Object.keys(answers).length > 0) {
