@@ -2,6 +2,7 @@
 import os, datetime, json
 import urllib.request
 from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
@@ -564,6 +565,7 @@ def generate_pdf(quiz_data):
 #  Flask 路由
 # ═══════════════════════════════════════
 app = Flask(__name__, static_folder=BASE, static_url_path='')
+CORS(app)
 
 @app.route('/api/health')
 def health():
