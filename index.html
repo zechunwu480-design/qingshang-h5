@@ -19,7 +19,7 @@
     <h1 class="hero__title">融资 · 财税 · 法务<br><span class="gold">企业综合服务一步到位</span></h1>
     <p class="hero__sub">专注服务潮州中小企业<br>财税合规 + 融资落地 + 法务风控，三位一体为企业保驾护航</p>
     <div class="hero__btns">
-      <button class="btn btn--gold" onclick="QS.quiz.start()">免费企业诊断</button>
+      <button class="btn btn--gold" onclick="QS.scrollTo('#services')">先了解我们</button>
       <a href="#services" class="btn btn--outline">了解服务</a>
     </div>
   </div>
@@ -96,6 +96,10 @@
   <div class="container">
     <div class="section-label">SERVICES</div>
     <h2 class="section-title reveal">三大业务板块<span class="gold">全覆盖</span></h2>
+    <div style="text-align:center;margin-bottom:28px">
+      <button class="btn btn--gold" onclick="QS.quiz.start()">开始企业诊断</button>
+      <p style="font-size:0.8em;color:var(--clr-text-dim);margin-top:8px">完成25道题，获取专业融资方案</p>
+    </div>
     <div class="services-grid">
       <div class="service-card reveal"><span class="service-card__icon">💰</span><div class="service-card__title">金融服务</div><div class="service-card__desc">银行融资 · 过桥垫资 · 推荐函担保 · 供应链金融</div><div class="service-card__detail">最快48小时放款，与多家银行长期合作，帮您匹配最优融资方案</div><div class="service-card__tags"><span class="tag">银行渠道</span><span class="tag">过桥垫资</span><span class="tag">推荐函</span></div></div>
       <div class="service-card reveal reveal--d1"><span class="service-card__icon">📋</span><div class="service-card__title">财税服务</div><div class="service-card__desc">税务规划 · 流水优化 · 报表规范 · 财务结构调整</div><div class="service-card__detail">专业团队梳理账目，让财务数据真正反映企业实力，提升贷款通过率</div><div class="service-card__tags"><span class="tag">税务规划</span><span class="tag">报表合规</span><span class="tag">成本优化</span></div></div>
@@ -258,7 +262,7 @@
 </div>
 
 <!-- FIXED CTA -->
-<button class="btn btn--gold btn--sm fixed-cta" onclick="QS.quiz.start()">免费诊断</button>
+<button class="btn btn--gold btn--sm fixed-cta" onclick="QS.scrollTo('#services')">查看服务</button>
 
 <script src="js/animations.js"></script>
 <script src="js/quick.js"></script>
