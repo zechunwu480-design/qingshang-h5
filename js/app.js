@@ -70,5 +70,12 @@ window.QS = window.QS || {};
       var item = q.parentElement;
       item.classList.toggle('open');
     });
+
+    // 首屏之后再显示悬浮体检入口，避免压住首屏和数据背书
+    function updateFixedCta() {
+      document.body.classList.toggle('cta-visible', window.scrollY > window.innerHeight * 0.65);
+    }
+    window.addEventListener('scroll', updateFixedCta, { passive: true });
+    updateFixedCta();
   });
 })();

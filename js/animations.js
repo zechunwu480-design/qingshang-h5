@@ -38,9 +38,9 @@ window.QS = window.QS || {};
       // easeOutQuart
       var ease = 1 - Math.pow(1 - progress, 4);
       var current = target * ease;
-      el.textContent = decimal > 0 ? current.toFixed(decimal) : Math.round(current);
+      el.textContent = (decimal > 0 ? current.toFixed(decimal) : Math.round(current)) + suffix;
       if (progress < 1) requestAnimationFrame(step);
-      else el.textContent = decimal > 0 ? target.toFixed(decimal) : target;
+      else el.textContent = (decimal > 0 ? target.toFixed(decimal) : target) + suffix;
     }
     requestAnimationFrame(step);
   }
