@@ -11,7 +11,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
 from reportlab.platypus import (
     SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle,
-    PageBreak, HRFlowable
+    PageBreak, HRFlowable, KeepTogether
 )
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -94,19 +94,19 @@ def _pct_color(pct):
 
 def _make_bar(pct, color, width=150*mm, height=4*mm):
     """返回一个 Table 模拟进度条"""
-    filled = max(1, width * pct / 100) if pct > 0 else 0
+    pct = max(0, min(100, pct or 0))
+    filled = max(0.5*mm, width * pct / 100) if pct > 0 else 0.5*mm
     empty = width - filled
-    if filled > 0:
-        data = [[''] * 1]
-        t = Table(data, colWidths=[width], rowHeights=[height])
-        t.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (0, 0), color),
-            ('ROUNDEDCORNERS', [2, 2, 2, 2]),
-        ]))
-    else:
-        data = [['']]
-        t = Table(data, colWidths=[width], rowHeights=[height])
-        t.setStyle(TableStyle([('BACKGROUND', (0, 0), (0, 0), C_BAR_BG)]))
+    data = [['', '']]
+    t = Table(data, colWidths=[filled, max(0.5*mm, empty)], rowHeights=[height])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (0, 0), color),
+        ('BACKGROUND', (1, 0), (1, 0), C_BAR_BG),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 0),
+        ('TOPPADDING', (0, 0), (-1, -1), 0),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 0),
+    ]))
     return t
 
 
@@ -200,6 +200,95 @@ def _action_list(items, style_title, style_desc):
         result.append(Paragraph(f'<b>→ {title}</b>', style_title))
         result.append(Paragraph(desc, style_desc))
         result.append(Spacer(1, 3*mm))
+    return result
+
+
+def _p(text, style='body'):
+    return Paragraph(str(text), S[style])
+
+
+def _section(title, color=C_GOLD):
+    return [
+        Paragraph(title, ParagraphStyle('sec_' + title[:2], fontName='SimHeiB', fontSize=18, textColor=color, leading=26, spaceAfter=4)),
+        HRFlowable(width='100%', thickness=0.6, color=color, spaceAfter=8),
+    ]
+
+
+def _simple_table(rows, col_widths=None):
+    if col_widths is None:
+        col_widths = [42*mm, 108*mm]
+    data = [[_p(k, 'small'), _p(v, 'body')] for k, v in rows]
+    t = Table(data, colWidths=col_widths, hAlign='LEFT')
+    t.setStyle(TableStyle([
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('LEFTPADDING', (0, 0), (-1, -1), 0),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 4),
+        ('TOPPADDING', (0, 0), (-1, -1), 3),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 3),
+        ('LINEBELOW', (0, 0), (-1, -2), 0.3, HexColor('#E8E8E8')),
+    ]))
+    return t
+
+
+def _card(title, body, color=C_GOLD):
+    data = [[
+        Paragraph(title, ParagraphStyle('cardt', fontName='SimHeiB', fontSize=11, textColor=color, leading=16)),
+        Paragraph(body, ParagraphStyle('cardb', fontName='SimHei', fontSize=8.5, textColor=C_MUTED, leading=13)),
+    ]]
+    t = Table(data, colWidths=[36*mm, 114*mm])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), C_LGRAY),
+        ('BOX', (0, 0), (-1, -1), 0.4, HexColor('#E6E8EB')),
+        ('LEFTPADDING', (0, 0), (-1, -1), 8),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 8),
+        ('TOPPADDING', (0, 0), (-1, -1), 7),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 7),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+    ]))
+    return t
+
+
+def _customer_level_text(scores, level):
+    total = scores.get('total', 0)
+    label = level.get('label', 'C')
+    if total >= 720:
+        return f'{label}级：企业基础较稳，可优先进入融资方案匹配，并进一步优化成本与授信结构。'
+    if total >= 500:
+        return f'{label}级：企业存在一定风险，建议先完成关键材料与合规修复，再推进融资申请。'
+    return f'{label}级：企业当前风险较高，建议优先处理红线问题，暂不建议盲目重复申请贷款。'
+
+
+def _red_flags(a):
+    flags = []
+    if a.get('overdue', '').find('未还') > -1:
+        flags.append(('征信红线', '存在未结清逾期记录，建议优先结清并等待信用逐步修复。'))
+    if a.get('exec_record', '') == '有记录（当前有效）':
+        flags.append(('司法红线', '存在当前有效被执行/失信记录，需先处理记录再考虑银行融资。'))
+    if a.get('contract_dispute', '') == '有（未结案）':
+        flags.append(('诉讼红线', '存在未结案合同纠纷，银行放款前查询诉讼时会重点关注。'))
+    if a.get('tax_owed', '') == '有（未处理）':
+        flags.append(('税务红线', '存在未处理欠税/滞纳金，会持续影响经营信用与融资审查。'))
+    if a.get('loan_orgs', '') in ('4-5个', '5个以上'):
+        flags.append(('多头负债', '贷款机构数量偏多，需控制新增申请并考虑债务整合。'))
+    if a.get('acc_level', '') in ('较混乱', '两套账或无账'):
+        flags.append(('财务红线', '账务规范度不足，需先梳理报表、流水与票据。'))
+    return flags
+
+
+def _dim_verdict(name, score, max_score):
+    pct = int(score / max_score * 100) if max_score else 0
+    if pct >= 72:
+        return f'{name}基础较好，建议保持现有合规管理并争取更优融资条件。'
+    if pct >= 50:
+        return f'{name}存在可修复短板，建议按优先级完善资料与经营记录。'
+    return f'{name}风险较高，建议先处理核心障碍后再推进外部融资。'
+
+
+def _bullet_items(items, style='bullet', limit=None):
+    result = []
+    for text in (items[:limit] if limit else items):
+        result.append(Paragraph(f'● {text}', S[style]))
+        result.append(Spacer(1, 2*mm))
     return result
 
 
@@ -557,6 +646,196 @@ def generate_pdf(quiz_data):
     ))
 
     # 生成
+    doc.build(story, onFirstPage=_cover_page, onLaterPages=_later_pages)
+    return filename
+
+
+# ═══════════════════════════════════════
+#  客户版 PDF 报告（新版模板）
+#  保留上方旧版实现作为备用；此函数覆盖同名旧函数，路由会使用新版。
+# ═══════════════════════════════════════
+def generate_pdf(quiz_data):
+    answers = quiz_data.get('answers', {})
+    scores = quiz_data.get('scores', {})
+    level = quiz_data.get('level', {})
+    issues = quiz_data.get('issues', [])
+
+    company = answers.get('company', '未命名企业')
+    safe_company = ''.join(ch for ch in company if ch not in r'\/:*?"<>|')[:30] or '未命名企业'
+    ts = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    filename = f'report_{safe_company}_{ts}.pdf'
+    filepath = os.path.join(REPORTS, filename)
+
+    doc = SimpleDocTemplate(
+        filepath, pagesize=A4,
+        leftMargin=19*mm, rightMargin=19*mm,
+        topMargin=25*mm, bottomMargin=20*mm,
+    )
+    story = []
+    today_cn = datetime.datetime.now().strftime('%Y年%m月%d日')
+
+    # 封面
+    story.append(Spacer(1, 46*mm))
+    story.append(Paragraph('潮州青商企服', S['cover_brand']))
+    story.append(Spacer(1, 5*mm))
+    story.append(Paragraph('融资 · 财税 · 法务 三维企业体检', S['cover_sub']))
+    story.append(Spacer(1, 27*mm))
+    story.append(Paragraph('企业体检报告', S['cover_title']))
+    story.append(Paragraph('客户版', S['cover_title2']))
+    story.append(Spacer(1, 16*mm))
+    story.append(Paragraph(company, S['cover_company']))
+    story.append(Spacer(1, 10*mm))
+    story.append(Paragraph(str(scores.get('total', 0)), S['cover_score']))
+    story.append(Paragraph(f'/ 1000 分 · {level.get("label", "")} 级', S['cover_label']))
+    story.append(Spacer(1, 5*mm))
+    story.append(Paragraph(_customer_level_text(scores, level), S['cover_label']))
+    story.append(Spacer(1, 26*mm))
+    story.append(Paragraph(today_cn, S['center_small']))
+    story.append(PageBreak())
+
+    # 一、结论摘要
+    story.extend(_section('一、体检结论摘要', C_GOLD))
+    story.append(_simple_table([
+        ('企业名称', company),
+        ('所属行业', answers.get('industry', '-')),
+        ('成立年限', answers.get('establish', '-')),
+        ('公户流水', answers.get('pub_flow', '-')),
+        ('评估日期', today_cn),
+    ]))
+    story.append(Spacer(1, 7*mm))
+
+    score_style = ParagraphStyle('score_big', fontName='SimHeiB', fontSize=34, textColor=_pct_color(scores.get('totalPct', 0)), alignment=TA_CENTER, leading=40)
+    story.append(Paragraph('综合健康评分', S['h2']))
+    story.append(Paragraph(str(scores.get('total', 0)), score_style))
+    story.append(Paragraph(f'/ 1000 分 · {level.get("label", "")} 级', S['cover_label']))
+    story.append(Spacer(1, 3*mm))
+    story.append(Paragraph(_customer_level_text(scores, level), ParagraphStyle('conclusion', fontName='SimHei', fontSize=10, textColor=C_TEXT, alignment=TA_CENTER, leading=16)))
+    story.append(Spacer(1, 8*mm))
+
+    dim_cards = [[
+        Paragraph(f'融资<br/><font size="14" color="#3498DB">{scores.get("fin", 0)}/450</font>', ParagraphStyle('dc1', fontName='SimHeiB', fontSize=9, textColor=C_TEXT, alignment=TA_CENTER, leading=15)),
+        Paragraph(f'财税<br/><font size="14" color="#D4AF37">{scores.get("tax", 0)}/320</font>', ParagraphStyle('dc2', fontName='SimHeiB', fontSize=9, textColor=C_TEXT, alignment=TA_CENTER, leading=15)),
+        Paragraph(f'法务<br/><font size="14" color="#9B59B6">{scores.get("law", 0)}/230</font>', ParagraphStyle('dc3', fontName='SimHeiB', fontSize=9, textColor=C_TEXT, alignment=TA_CENTER, leading=15)),
+    ]]
+    dim_t = Table(dim_cards, colWidths=[50*mm, 50*mm, 50*mm])
+    dim_t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), C_LGRAY),
+        ('BOX', (0, 0), (-1, -1), 0.4, HexColor('#E6E8EB')),
+        ('INNERGRID', (0, 0), (-1, -1), 0.3, HexColor('#E6E8EB')),
+        ('TOPPADDING', (0, 0), (-1, -1), 8),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
+    ]))
+    story.append(dim_t)
+    story.append(Spacer(1, 8*mm))
+
+    flags = _red_flags(answers)
+    if flags:
+        story.append(Paragraph('优先关注的红线/高风险事项', S['title_red']))
+        for title, desc in flags[:5]:
+            story.append(_card(title, desc, C_RED))
+            story.append(Spacer(1, 3*mm))
+    else:
+        story.append(_card('未发现明显红线事项', '当前答题信息未触发重大红线风险，建议继续保持规范经营，并进一步优化融资资料。', C_GREEN))
+    story.append(PageBreak())
+
+    # 二、三维度分析
+    story.extend(_section('二、三维度深度分析', C_BLUE))
+    dims = [
+        ('融资维度', 'fin', 450, C_BLUE, ['overdue', 'loan_orgs', 'rejections', 'flow_ratio', 'loan_due']),
+        ('财税维度', 'tax', 320, C_GOLD, ['acc_level', 'tax_grade', 'tax_owed', 'invoice', 'social']),
+        ('法务维度', 'law', 230, C_PURPLE, ['contract_dispute', 'labor_dispute', 'exec_record', 'labor_contract', 'license']),
+    ]
+    for name, key, mx, color, keys in dims:
+        score = scores.get(key, 0)
+        pct = scores.get(key + 'Pct', 0)
+        block = [
+            Paragraph(name, ParagraphStyle('dimh', fontName='SimHeiB', fontSize=14, textColor=color, leading=20)),
+            Paragraph(f'得分：{score} / {mx}（{pct}%）', S['small']),
+            _make_bar(pct, color, width=150*mm, height=3.5*mm),
+            Spacer(1, 3*mm),
+            Paragraph(_dim_verdict(name, score, mx), S['body']),
+            Spacer(1, 4*mm),
+            _simple_table([(LABELS.get(k, k), answers.get(k, '-')) for k in keys], col_widths=[42*mm, 108*mm]),
+            Spacer(1, 7*mm),
+        ]
+        story.extend(block)
+
+    story.append(PageBreak())
+
+    # 三、关键问题与影响说明
+    story.extend(_section('三、关键问题与影响说明', C_RED))
+    warns = [i.get('text', '') for i in issues if i.get('type') == 'warn']
+    if warns:
+        story.append(Paragraph('以下问题会影响企业融资通过率、经营合规性或后续服务成本，建议按优先级处理。', S['body']))
+        story.append(Spacer(1, 5*mm))
+        for idx, text in enumerate(warns[:8], 1):
+            story.append(_card(f'问题 {idx}', text.replace('直接拒贷', '形成明显融资障碍').replace('几乎无望', '难度较高'), C_RED))
+            story.append(Spacer(1, 3*mm))
+        if len(warns) > 8:
+            story.append(Paragraph(f'另有 {len(warns)-8} 项问题已纳入附录答题信息，建议由顾问结合实际资料进一步核查。', S['small']))
+    else:
+        story.append(_card('暂无重大问题', '根据当前答题信息，未发现明显重大风险项。建议继续完善基础资料，提高融资议价能力。', C_GREEN))
+    story.append(PageBreak())
+
+    # 四、行动方案
+    story.extend(_section('四、建议行动方案', C_ORANGE))
+    story.append(Paragraph('建议先处理影响融资审核和经营合规的高优先级事项，再推进具体融资方案。', S['body']))
+    story.append(Spacer(1, 6*mm))
+
+    story.append(Paragraph('短期（1-3个月）：先清除明显障碍', S['title_red']))
+    story.extend(_action_list(_short_actions(answers), S['action_title'], S['action_desc']))
+    story.append(Spacer(1, 5*mm))
+
+    story.append(Paragraph('中期（3-6个月）：优化资料与经营记录', S['title_orange']))
+    story.extend(_action_list(_mid_actions(answers), S['action_title'], S['action_desc']))
+    story.append(Spacer(1, 5*mm))
+
+    story.append(Paragraph('长期（6个月以上）：建立持续合规体系', S['title_green']))
+    story.extend(_action_list([
+        ('建立财税合规台账', '持续维护票据、流水、报表与社保记录，减少临时补资料。'),
+        ('定期复盘融资结构', '结合经营周期、还款节点和授信额度，提前规划续贷或新增授信。'),
+        ('法务风控常态化', '合同审核、劳动合规、资质维护建议形成固定流程。'),
+    ], S['action_title'], S['action_desc']))
+    story.append(PageBreak())
+
+    # 五、服务匹配建议
+    story.extend(_section('五、青商服务匹配建议', C_GOLD))
+    story.append(Paragraph('以下为基于本次答题结果形成的服务方向建议，具体执行方案需结合企业资料进一步确认。', S['body']))
+    story.append(Spacer(1, 6*mm))
+    public_tags = {'金融服务': '融资路径', '财税服务': '合规基础', '法务服务': '风险防控'}
+    for svc_name, items, _tag in _match_services(answers, scores):
+        story.append(Paragraph(f'{svc_name} · {public_tags.get(svc_name, "服务建议")}', S['h3']))
+        for item in items:
+            story.append(Paragraph(f'● {item}', S['bullet']))
+        story.append(Spacer(1, 5*mm))
+
+    story.append(Paragraph('顾问解读重点', S['h3']))
+    story.extend(_bullet_items([
+        '判断当前是否适合直接申请银行授信，还是应先完成风险修复。',
+        '明确影响融资通过率的前3项问题，并制定处理顺序。',
+        '结合企业额度需求、流水和负债结构，匹配更合适的服务路径。',
+    ]))
+    story.append(PageBreak())
+
+    # 六、答题附录
+    story.extend(_section('六、答题信息附录', C_GOLD))
+    all_keys = ['company', 'industry', 'establish', 'pub_flow',
+                'total_debt', 'loan_orgs', 'overdue', 'debt_trend',
+                'rejections', 'online_loans', 'collateral', 'flow_ratio',
+                'loan_due', 'expect_amt', 'acc_level', 'acc_person',
+                'tax_grade', 'tax_owed', 'invoice', 'social',
+                'contract_dispute', 'labor_dispute', 'exec_record',
+                'labor_contract', 'license']
+    story.append(_simple_table([(LABELS.get(k, k), answers.get(k, '-')) for k in all_keys]))
+    story.append(Spacer(1, 8*mm))
+    story.append(Paragraph('报告说明', S['h3']))
+    story.append(Paragraph(
+        '本报告基于客户自行填写的信息生成，仅作为企业经营健康度初步评估与顾问沟通参考，'
+        '不构成任何投资、融资、税务或法律意见。具体融资额度、审批结果、整改周期及服务方案，'
+        '需结合企业真实资料、银行政策及专业机构进一步核查确认。',
+        S['small']
+    ))
+
     doc.build(story, onFirstPage=_cover_page, onLaterPages=_later_pages)
     return filename
 
